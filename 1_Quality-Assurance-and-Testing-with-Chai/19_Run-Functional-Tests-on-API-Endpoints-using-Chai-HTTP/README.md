@@ -1,0 +1,24 @@
+<div class="challenge-instructions"><div><section id="description">
+<p>As a reminder, this project is being built upon the following starter project on <a href="https://replit.com/github/freeCodeCamp/boilerplate-mochachai" rel="noopener noreferrer nofollow" target="_blank">Replit</a>, or cloned from <a href="https://github.com/freeCodeCamp/boilerplate-mochachai/" rel="noopener noreferrer nofollow" target="_blank">GitHub</a>.</p>
+<p>Mocha allows you to test asynchronous operations like calls to API endpoints with a plugin called <code>chai-http</code>.</p>
+<p>The following is an example of a test using <code>chai-http</code> for a suite called <code>'GET /hello?name=[name] =&gt; "hello [name]"'</code>:</p>
+<pre class="language-js" tabindex="0"><code class="language-js"><span class="token function">suite</span><span class="token punctuation">(</span><span class="token string">'GET /hello?name=[name] =&gt; "hello [name]"'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">test</span><span class="token punctuation">(</span><span class="token string">'?name=John'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">done</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    chai
+      <span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span>server<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'/hello?name=John'</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> res</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>status<span class="token punctuation">,</span> <span class="token number">200</span><span class="token punctuation">,</span> <span class="token string">'Response status should be 200'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        assert<span class="token punctuation">.</span><span class="token function">equal</span><span class="token punctuation">(</span>res<span class="token punctuation">.</span>text<span class="token punctuation">,</span> <span class="token string">'hello John'</span><span class="token punctuation">,</span> <span class="token string">'Response should be "hello John"'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">done</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>The test sends a <code>GET</code> request to the server with a name as a URL query string (<code>?name=John</code>). In the <code>end</code> method's callback function, the response object (<code>res</code>) is received and contains the <code>status</code> property.</p>
+<p>The first <code>assert.equal</code> checks if the status is equal to <code>200</code>. The second <code>assert.equal</code> checks that the response string (<code>res.text</code>) is equal to <code>"hello John"</code>.</p>
+<p>Also, notice the <code>done</code> parameter in the test's callback function. Calling it without an argument at the end of a test is necessary to signal that the asynchronous operation is complete.</p>
+</section></div><hr/><div><section id="instructions">
+<p>Within <code>tests/2_functional-tests.js</code>, alter the <code>'Test GET /hello with no name'</code> test (<code>// #1</code>) to assert the <code>status</code> and the <code>text</code> of the response to make the test pass. Do not alter the arguments passed to the asserts.</p>
+<p>There should be no URL query. Without a name URL query, the endpoint responds with <code>hello Guest</code>.</p>
+</section></div><hr/></div>
