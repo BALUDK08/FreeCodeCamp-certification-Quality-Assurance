@@ -58,8 +58,7 @@ myDB(async client => {
     res.render('index', {
       title: 'Connected to Database',
       message: 'Please login',
-      showLogin: true,
-      showRegistration: true
+      showLogin: true
     });
   });
 
@@ -73,48 +72,6 @@ myDB(async client => {
     //#9
     res.render('profile', {username: req.user.username});
   })
-
-  //#10
-  app.route("/logout").get((req, res) => {
-    req.logout();
-    res.redirect("/");
-  })
-
-  app.use((req, res, next) => {
-    res.status(404).type('text').send('Not Found');
-  });
-
-  //#11 registration 
-  app.route('/register')
-  .post((req, res, next) => {
-    myDataBase.findOne({ username: req.body.username }, function(err, user) {
-      if (err) {
-        next(err);
-      } else if (user) {
-        res.redirect('/');
-      } else {
-        myDataBase.insertOne({
-          username: req.body.username,
-          password: req.body.password
-        },
-          (err, doc) => {
-            if (err) {
-              res.redirect('/');
-            } else {
-              // The inserted document is held within
-              // the ops property of the doc
-              next(null, doc.ops[0]);
-            }
-          }
-        )
-      }
-    })
-  },
-    passport.authenticate('local', { failureRedirect: '/' }),
-    (req, res, next) => {
-      res.redirect('/profile');
-    }
-  );
 
   // Serialization and deserialization here...
   //#4

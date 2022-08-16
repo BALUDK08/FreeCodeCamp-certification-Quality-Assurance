@@ -5,6 +5,8 @@ const myDB = require('./connection');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 //#6
 const LocalStrategy = require('passport-local');
+//#12
+const bcrypt = require('bcrypt');
 
 
 const app = express();
@@ -93,9 +95,11 @@ myDB(async client => {
       } else if (user) {
         res.redirect('/');
       } else {
+        //#12
+        let hash = bcrypt.hashSync(req.body.password, 12);
         myDataBase.insertOne({
           username: req.body.username,
-          password: req.body.password
+          password: hash
         },
           (err, doc) => {
             if (err) {
@@ -146,8 +150,7 @@ myDB(async client => {
           return done(err);
         }
         if(!user) {return done(null, false); }
-        if(password !== user.password)
-        {
+        if (!bcrypt.compareSync(password, user.password)) { 
           return done(null, false);
         }
         return done(null, user);

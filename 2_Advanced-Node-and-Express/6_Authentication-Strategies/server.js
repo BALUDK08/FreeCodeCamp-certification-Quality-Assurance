@@ -57,64 +57,9 @@ myDB(async client => {
     //Change the response to render the Pug template
     res.render('index', {
       title: 'Connected to Database',
-      message: 'Please login',
-      showLogin: true,
-      showRegistration: true
+      message: 'Please login'
     });
   });
-
-  //#7
-  app.route("/login").post(passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
-    res.redirect("/profile")
-  })
-
-  //#8
-  app.route("/profile").get(ensureAuthenticated, (req, res) => {
-    //#9
-    res.render('profile', {username: req.user.username});
-  })
-
-  //#10
-  app.route("/logout").get((req, res) => {
-    req.logout();
-    res.redirect("/");
-  })
-
-  app.use((req, res, next) => {
-    res.status(404).type('text').send('Not Found');
-  });
-
-  //#11 registration 
-  app.route('/register')
-  .post((req, res, next) => {
-    myDataBase.findOne({ username: req.body.username }, function(err, user) {
-      if (err) {
-        next(err);
-      } else if (user) {
-        res.redirect('/');
-      } else {
-        myDataBase.insertOne({
-          username: req.body.username,
-          password: req.body.password
-        },
-          (err, doc) => {
-            if (err) {
-              res.redirect('/');
-            } else {
-              // The inserted document is held within
-              // the ops property of the doc
-              next(null, doc.ops[0]);
-            }
-          }
-        )
-      }
-    })
-  },
-    passport.authenticate('local', { failureRedirect: '/' }),
-    (req, res, next) => {
-      res.redirect('/profile');
-    }
-  );
 
   // Serialization and deserialization here...
   //#4
@@ -163,15 +108,6 @@ myDB(async client => {
     res.render('index', { title: e, message: 'Unable to login' });
   });
 });
-
-
-//#8
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect('/');
-};
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Listening on port " + process.env.PORT);
