@@ -22,7 +22,7 @@ app.set("views", "./views/pug")
 //#3
 let session = require("express-session")
 let passport = require("passport")
-let ObjectId = require('mongodb')
+const ObjectID = require('mongodb').ObjectID;
 
 
 
@@ -30,6 +30,9 @@ let ObjectId = require('mongodb')
   Please note that secure: true is a recommended option. However, it requires an https-enabled website, i.e., HTTPS is necessary for secure cookies. If secure is set, and you access your site over HTTP, 
   the cookie will not be set. If you have your node.js behind a proxy and are using secure: true, you need to set "trust proxy" in express:
 */
+//debug for replit https://stackoverflow.com/questions/36137873/using-app-set-to-set-trust-proxy | https://stackoverflow.com/questions/39930070/nodejs-express-why-should-i-use-app-enabletrust-proxy
+// https://stackoverflow.com/questions/44039069/express-session-secure-cookies-not-working
+app.set('trust proxy', 1);
 app.use(session({
   secret: process.env['SESSION_SECRET'],
   resave: true,
@@ -84,7 +87,7 @@ myDB(async client => {
   //#6
   passport.use(new LocalStrategy(
     function (username, password, done) {
-      myDataBase.findOne({username: username}, function (error, user) {
+      myDataBase.findOne({username: username}, function (err, user) {
         console.log('User '+ username +' attempted to log in.');
         if(err)
         {
